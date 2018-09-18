@@ -1,25 +1,31 @@
 # 安装说明
 
-## 环境要求
-- CPU架构：x86
-- JDK：Java 8u151+
+## 测试环境
 
+| 项       | 描述                                 |
+| -------- | ------------------------------------ |
+| 操作系统 | centos7.2                            |
+| CPU架构  | x86   (Presto目前只支持x86)          |
+| Ambari   | 2.6.1                                |
+| JDK      | Java 8u162   (Presto要求Java 8u151+) |
 
 ## 安装
+
 放置好service之后，安装过程按照ambari添加服务的过程即可。
 
 注意：
 
-- 在安装的时候，安装coordinator服务的主机不要勾选安装worker。
-- 安装过程进行到配置服务时，填写`discovery.uri`选项值，例如：`http://<coordinator-host>:8787`。
+- 在安装的时候，安装coordinator服务的主机不要勾选安装worker服务。
+- 安装过程进行到配置服务时，填写`discovery.uri`配置项的值，例如：`http://<COORDINATOR_FQDN>:8787`。
 
 ### 伪分布式
+
 安装的时候不要勾选任何worker服务，也就是只安装coordinator服务。
 
-将`node-scheduler.include-coordinator`配置项调节为`true`。
+将`node-scheduler.include-coordinator`配置项的值调整为`true`。
 
 ### 分布式
-勾选任意数量的worker服务，主要不要勾选要安装coordinator服务的主机上的worker服务。
+勾选任意数量的worker服务，注意**不要**在安装coordinator服务的主机上勾选worker服务。
 
 
 ## Presto UI
@@ -28,7 +34,9 @@
 ## Presto Cli
 使用presto-cli:
 
-**连接hive**
+由于PRESTO这个service里已经写好hive.properties，安装成功后，可以直接连接hive，进行操作。
+
+**连接hive示例**
 
 ```
 bin/presto --server example.net:8787 --catalog hive --schema default
