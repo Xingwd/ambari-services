@@ -42,61 +42,43 @@ version = default("/commandParams/version", None)
 stack_name = default("/hostLevelParams/stack_name", None)
 
 
+# params from config-properties
+config_properties = config['configurations']['config-properties']
+
+# params from connectors-properties
+connectors_properties = config['configurations']['connectors-properties']
+memory_configs = ['query.max-memory', 'query.max-memory-per-node', 'query.max-total-memory-per-node']
+
+# params from jvm-properties
+jvm_properties_content = config['configurations']['jvm-config']['jvm_config']
+
+# params from node-properties
+node_properties = config['configurations']['node-properties']
+
 # params from presto-env
 presto_user = config['configurations']['presto-env']['presto_user']
 presto_group = config['configurations']['presto-env']['presto_group']
+presto_etc_dir = config['configurations']['presto-env']['presto_etc_dir']
 presto_log_dir = config['configurations']['presto-env']['presto_log_dir']
 presto_pid_dir = config['configurations']['presto-env']['presto_pid_dir']
-presto_log_file = os.path.join(presto_log_dir, 'presto.log')
-presto_etc_catalog_dir = config['configurations']['presto-env']['presto_etc_catalog_dir']
+
+presto_pid_file = os.path.join(presto_pid_dir, 'launcher.pid')
+presto_launcher_log_file = os.path.join(presto_log_dir, 'launcher.log')
+presto_server_log_file = os.path.join(presto_log_dir, 'server.log')
+
 
 presto_dir = os.path.join(*[install_dir, presto_dirname])
-conf_dir = "/etc/presto/conf"
+presto_plugin_config_dir = os.path.join(presto_etc_dir, 'catalog/')
+
 
 # launcher options
-launcher_coordinator_options = " --etc-dir=/etc/presto/conf --config=/etc/presto/conf/coordinator.properties --data-dir=/var/presto/data --pid-file=/var/run/presto/coordinator.pid --launcher-log-file=/var/log/presto/coordinator-launcher.log --server-log-file=/var/log/presto/coordinator.log"
-launcher_worker_options = " --etc-dir=/etc/presto/conf --config=/etc/presto/conf/worker.properties --data-dir=/var/presto/data --pid-file=/var/run/presto/worker.pid --launcher-log-file=/var/log/presto/worker-launcher.log --server-log-file=/var/log/presto/worker.log"
-
-
-
-# node.properties
-presto_node_properties_content = config['configurations']['node-properties']['node_properties_content']
-
-# jvm.config
-jvm_config_content = config['configurations']['jvm-config']['jvm_config_content']
-
-# log.properties
-log_properties_content = config['configurations']['log-properties']['log_properties_content']
-
-# coordinator.properties
-coordinator_properties_content = config['configurations']['coordinator-properties']['coordinator_properties_content']
-
-# worker.properties
-worker_properties_content = config['configurations']['worker-properties']['worker_properties_content']
-
-# hive.properties
-presto_hive_properties_content = config['configurations']['hive-properties']['hive_properties_content']
+launcher_options = " --etc-dir=" + presto_etc_dir + " --pid-file=" + presto_pid_file + " --launcher-log-file=" + presto_launcher_log_file + " --server-log-file=" + presto_launcher_log_file
 
 # node hostname
 hostname = config["hostname"]
 
-# coordinator host
-presto_coordinator_hosts = default('/clusterHostInfo/presto_coordinator_host', [])
-presto_coordinator_host = presto_coordinator_hosts[0] if len(presto_coordinator_hosts) > 0 else None 
+# hdfs user
+hdfs_user = config['configurations']['hadoop-env']['hdfs_user']
 
 # hive metastore uris
 hive_metastore_uris = config['configurations']['hive-site']['hive.metastore.uris']
-
-# detect configs
-master_configs = config['clusterHostInfo']
-ambari_host = str(master_configs['ambari_server_host'][0])
-
-# e.g. 2.3
-stack_version_unformatted = config['hostLevelParams']['stack_version']
-
-# e.g. 2.3.0.0
-stack_version_formatted = format_stack_version(stack_version_unformatted)
-major_stack_version = get_major_version(stack_version_formatted)
-
-# e.g. 2.3.0.0-2130
-full_stack_version = default("/commandParams/version", None)

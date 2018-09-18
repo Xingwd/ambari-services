@@ -15,13 +15,23 @@
    limitations under the License.
 -->
 <configuration>
-<property>
-    <name>node_properties_content</name>
-    <description>This is the content for node.properties file</description>
-    <value>
-node.environment=production
-node.id={{hostname}}
-    </value>
+  <property>
+    <name>node.environment</name>
+    <value>production</value>
+    <description>
+      The name of the environment. All Presto nodes in a cluster must have the
+      same environment name.
+    </description>
     <on-ambari-upgrade add="true"/>
-</property>
+  </property>
+
+  <property>
+    <name>node.data-dir</name>
+    <value>/var/lib/presto</value>
+    <description>
+      The location (filesystem path) of the data directory. Presto will store
+      logs and other data here.
+    </description>
+    <on-ambari-upgrade add="true"/>
+  </property>
 </configuration>

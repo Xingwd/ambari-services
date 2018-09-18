@@ -15,12 +15,13 @@
    limitations under the License.
 -->
 <configuration>
-<property>
-    <name>log_properties_content</name>
+  <property>
+    <name>hive</name>
     <description>This is the content for log.properties file</description>
     <value>
-# custom
+connector.name=hive-hadoop2
+hive.metastore.uri={{hive_metastore_uris}}
     </value>
     <on-ambari-upgrade add="true"/>
-</property>
+  </property>
 </configuration>

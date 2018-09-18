@@ -15,18 +15,7 @@
    limitations under the License.
 -->
 <configuration>
-  <property>
-    <name>presto_pid_dir</name>
-    <value>/var/run/presto</value>
-    <description>Dir containing process ID file</description>
-    <value-attributes>
-      <type>directory</type>
-      <overridable>false</overridable>
-      <editable-only-at-install>true</editable-only-at-install>
-    </value-attributes>
-    <on-ambari-upgrade add="true"/>
-  </property>
-  <property>
+   <property>
     <name>presto_user</name>
     <value>presto</value>
     <property-type>USER</property-type>
@@ -37,6 +26,7 @@
     </value-attributes>
     <on-ambari-upgrade add="true"/>
   </property>
+
   <property>
     <name>presto_group</name>
     <value>presto</value>
@@ -48,16 +38,35 @@
     </value-attributes>
     <on-ambari-upgrade add="true"/>
   </property>
+
+  <property>
+    <name>presto_etc_dir</name>
+    <value>/etc/presto/conf</value>
+    <description>Dir containing process ID file</description>
+    <value-attributes>
+      <type>directory</type>
+      <overridable>false</overridable>
+      <editable-only-at-install>true</editable-only-at-install>
+    </value-attributes>
+    <on-ambari-upgrade add="true"/>
+  </property>
+  
+  <property>
+    <name>presto_pid_dir</name>
+    <value>/var/run/presto</value>
+    <description>Dir containing process ID file</description>
+    <value-attributes>
+      <type>directory</type>
+      <overridable>false</overridable>
+      <editable-only-at-install>true</editable-only-at-install>
+    </value-attributes>
+    <on-ambari-upgrade add="true"/>
+  </property>
+ 
   <property>
     <name>presto_log_dir</name>
     <value>/var/log/presto</value>
     <description>presto Log dir</description>
-    <on-ambari-upgrade add="true"/>
-  </property>
-  <property>
-    <name>presto_etc_catalog_dir</name>
-    <value>/etc/presto/conf/catalog</value>
-    <description>presto catalog dir</description>
     <on-ambari-upgrade add="true"/>
   </property>
 </configuration>

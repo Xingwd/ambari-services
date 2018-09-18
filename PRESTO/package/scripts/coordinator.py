@@ -51,9 +51,7 @@ class Coordinator(Script):
   
   def configure(self, env):
     import params
-    import status_params
     env.set_params(params)
-    env.set_params(status_params)
     self.create_presto_log_dir(env)
 
     # create the pid and presto dirs
@@ -67,7 +65,7 @@ class Coordinator(Script):
     self.chown_presto_pid_dir(env)
 
     # create presto etc catalog dir
-    Directory(params.presto_etc_catalog_dir,
+    Directory(params.presto_plugin_config_dir,
               owner="root",
               group="root",
               cd_access="a",
@@ -75,55 +73,68 @@ class Coordinator(Script):
               mode=0755
     )
 
-    # write out node.properties
-    node_properties_content = InlineTemplate(params.presto_node_properties_content)
-    File(format("{params.conf_dir}/node.properties"), content=node_properties_content,
+
+    key_val_template = '{0}={1}\n'
+
+    # write out config.properties
+    config_properties = key_val_template.format('coordinator', 'true') + \
+                        key_val_template.format('discovery-server.enabled', 'true')
+    for key, value in params.config_properties.iteritems():
+      if key in params.memory_configs:
+        value += 'GB'
+      config_properties += key_val_template.format(key, value)
+    File(format("{params.presto_etc_dir}/config.properties"), content=config_properties,
          owner=params.presto_user, group=params.presto_group)
+
+
+    #  write out connectors.properties
+    for key, value in params.connectors_properties.iteritems():
+      content = InlineTemplate(value)
+      File(format("{params.presto_etc_dir}/catalog/{key}.properties"), content=content,
+           owner=params.presto_user, group=params.presto_group)
+
 
     # write out jvm.config
-    File(format("{params.conf_dir}/jvm.config"), content=params.jvm_config_content,
+    jvm_properties_content = InlineTemplate(params.jvm_properties_content)
+    File(format("{params.presto_etc_dir}/jvm.config"), content=jvm_properties_content,
          owner=params.presto_user, group=params.presto_group)
 
-    # write out log.properties
-    File(format("{params.conf_dir}/log.properties"), content=params.log_properties_content,
+
+    # write out node.properties
+    node_properties = key_val_template.format('node.id', params.hostname)
+    for key, value in params.node_properties.iteritems():
+      node_properties += key_val_template.format(key, value)
+    File(format("{params.presto_etc_dir}/node.properties"), content=node_properties,
          owner=params.presto_user, group=params.presto_group)
 
-    # write out coordinator.properties
-    File(format("{params.conf_dir}/coordinator.properties"), content=params.coordinator_properties_content,
-         owner=params.presto_user, group=params.presto_group)
 
-    #  write out hive.properties
-    hive_properties_content = InlineTemplate(params.presto_hive_properties_content)    
-    File(format("{params.conf_dir}/catalog/hive.properties"), content=hive_properties_content,
-         owner=params.presto_user, group=params.presto_group)
 
   def stop(self, env):
     import params
     self.create_presto_log_dir(env)
     self.chown_presto_pid_dir(env)
-    Execute(params.presto_dir + '/bin/launcher ' + params.launcher_coordinator_options + ' stop >> ' + params.presto_log_file, user=params.presto_user)
+    Execute(params.presto_dir + '/bin/launcher ' + params.launcher_options + ' stop >> ' + params.presto_launcher_log_file, user=params.presto_user)
 
 
   def start(self, env):
     import params
-    import status_params
     self.configure(env)
 
     Execute(("chown", "-R", format("{presto_user}") + ":" + format("{presto_group}"), "/etc/presto"),
             sudo=True)
     
-    Execute(params.presto_dir + '/bin/launcher ' + params.launcher_coordinator_options + ' start >> ' + params.presto_log_file, user=params.presto_user)
+    Execute(params.presto_dir + '/bin/launcher ' + params.launcher_options + ' start >> ' + params.presto_launcher_log_file, user=params.presto_user)
 
-    pidfile = glob.glob(os.path.join(status_params.presto_pid_dir, 'coordinator.pid'))[0]
+    pidfile = glob.glob(os.path.join(params.presto_pid_file))[0]
     Logger.info(format("Pid file is: {pidfile}"))
 
 
   def status(self, env):
-    import status_params
-    env.set_params(status_params)
+    import params
+    env.set_params(params)
 
     try:
-        pid_file = glob.glob(status_params.presto_pid_dir + '/coordinator.pid')[0]
+        pid_file = glob.glob(params.presto_pid_file)[0]
     except IndexError:
         pid_file = ''
     check_process_status(pid_file)

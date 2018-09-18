@@ -17,12 +17,3 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 """
-
-from resource_management.libraries.script import Script
-
-config = Script.get_config()
-
-presto_pid_dir = config['configurations']['presto-env']['presto_pid_dir']
-presto_user = config['configurations']['presto-env']['presto_user']
-presto_group = config['configurations']['presto-env']['presto_group']
-presto_log_dir = config['configurations']['presto-env']['presto_log_dir']

@@ -39,7 +39,7 @@
           <name>WORKER</name>
           <displayName>Presto Worker</displayName>
           <category>SLAVE</category>
-          <cardinality>1+</cardinality>
+          <cardinality>0+</cardinality>
           <commandScript>
             <script>scripts/worker.py</script>
             <scriptType>PYTHON</scriptType>
@@ -53,7 +53,7 @@
           <osFamily>redhat7</osFamily>
           <packages>
             <package>
-              <name>presto_6_1_2_6_1457</name>
+              <name>presto_${stack_version}</name>
             </package>
           </packages>
         </osSpecific>

@@ -15,9 +15,15 @@
    limitations under the License.
 -->
 <configuration>
-<property>
-    <name>jvm_config_content</name>
-    <description>This is the content for jvm_config file</description>
+  <property>
+    <name>jvm_config</name>
+    <description>
+       A list of command line options used for launching the Java Virtual
+       Machine. The format of the file must be one option per line. These
+       options are not interpreted by the shell, so options containing spaces or
+       other special characters should not be quoted (as demonstrated by the
+       OnOutOfMemoryError option).
+    </description>
     <value>
 -server
 -Xmx16G
@@ -27,8 +33,8 @@
 -XX:+ExplicitGCInvokesConcurrent
 -XX:+HeapDumpOnOutOfMemoryError
 -XX:+ExitOnOutOfMemoryError
--DHADOOP_USER_NAME=hdfs
+-DHADOOP_USER_NAME={{hdfs_user}}
     </value>
     <on-ambari-upgrade add="true"/>
-</property>
+  </property>
 </configuration>
