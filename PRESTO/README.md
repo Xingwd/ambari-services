@@ -11,7 +11,7 @@
 注意：
 
 - 在安装的时候，安装coordinator服务的主机不要勾选安装worker。
-- 安装过程进行到配置服务时，填写`discovery.uri`选项值，例如：`http://<coordinator-host>:8285`。
+- 安装过程进行到配置服务时，填写`discovery.uri`选项值，例如：`http://<coordinator-host>:8787`。
 
 ### 伪分布式
 安装的时候不要勾选任何worker服务，也就是只安装coordinator服务。
@@ -24,6 +24,15 @@
 
 ## Presto UI
 安装完成后，访问`discovery.uri`填写的内容，
+
+## Presto Cli
+使用presto-cli:
+
+**连接hive**
+
+```
+bin/presto --server example.net:8787 --catalog hive --schema default
+```
 
 
 # 待改进
