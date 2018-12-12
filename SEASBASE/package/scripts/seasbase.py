@@ -24,57 +24,57 @@ import os
 from resource_management import *
 
 
-class Redis(Script):
+class seasbase(Script):
   def install(self, env):
     pass
 
 
-  def create_seabase_log_dir(self, env):
+  def create_seasbase_log_dir(self, env):
     import params
     env.set_params(params)
-    Directory([params.seabase_log_dir],
-              owner=params.seabase_user,
-              group=params.seabase_group,
+    Directory([params.seasbase_log_dir],
+              owner=params.seasbase_user,
+              group=params.seasbase_group,
               cd_access="a",
               create_parents=True,
               mode=0755
               )
 			  
 			  
-  def create_seabase_pid_dir(self, env):
+  def create_seasbase_pid_dir(self, env):
     import params
     env.set_params(params)
-    Directory([params.seabase_pid_dir],
-              owner=params.seabase_user,
-              group=params.seabase_group,
+    Directory([params.seasbase_pid_dir],
+              owner=params.seasbase_user,
+              group=params.seasbase_group,
               cd_access="a",
               create_parents=True,
               mode=0755
             )
 
-    Execute(("chown", "-R", format("{seabase_user}") + ":" + format("{seabase_group}"), params.seabase_pid_dir),
+    Execute(("chown", "-R", format("{seasbase_user}") + ":" + format("{seasbase_group}"), params.seasbase_pid_dir),
             sudo=True)			
 
   
   def configure(self, env):
-    self.create_seabase_log_dir(env)
-    self.create_seabase_pid_dir(env)
+    self.create_seasbase_log_dir(env)
+    self.create_seasbase_pid_dir(env)
 
 
   def stop(self, env):
     import params
-    self.create_seabase_log_dir(env)
-    self.create_seabase_pid_dir(env)
-    Execute(params.seabase_dir + '/bin/redis stop', user=params.seabase_user)
+    self.create_seasbase_log_dir(env)
+    self.create_seasbase_pid_dir(env)
+    Execute(params.seasbase_dir + '/bin/seasbase stop', user=params.seasbase_user)
 
 
   def start(self, env):
     import params
     self.configure(env)
     
-    Execute(params.seabase_dir + '/bin/redis start', user=params.seabase_user)
+    Execute(params.seasbase_dir + '/bin/seasbase start', user=params.seasbase_user)
 
-    pidfile = glob.glob(os.path.join(params.redis_pid_file))[0]
+    pidfile = glob.glob(os.path.join(params.seasbase_pid_file))[0]
     Logger.info(format("Pid file is: {pidfile}"))
 
 
@@ -83,10 +83,10 @@ class Redis(Script):
     env.set_params(params)
 
     try:
-        pid_file = glob.glob(params.redis_pid_file)[0]
+        pid_file = glob.glob(params.seasbase_pid_file)[0]
     except IndexError:
         pid_file = ''
     check_process_status(pid_file)
 
 if __name__ == "__main__":
-  Redis().execute()
+  seasbase().execute()

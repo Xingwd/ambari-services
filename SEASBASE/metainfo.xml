@@ -19,18 +19,18 @@
   <schemaVersion>2.0</schemaVersion>
   <services>
     <service>
-      <name>SEABASE</name>
-      <displayName>SeaBase</displayName>
-      <comment>Redoop SeaBase</comment>
+      <name>SEASBASE</name>
+      <displayName>SeasBase</displayName>
+      <comment>Redoop SeasBase</comment>
       <version>0.1.0</version>
       <components>
         <component>
-          <name>SEABASE</name>
-          <displayName>SeaBase</displayName>
+          <name>SEASBASE</name>
+          <displayName>SeasBase</displayName>
           <category>MASTER</category>
           <cardinality>1</cardinality>
           <commandScript>
-            <script>scripts/seabase.py</script>
+            <script>scripts/seasbase.py</script>
             <scriptType>PYTHON</scriptType>
             <timeout>1200</timeout>
           </commandScript>

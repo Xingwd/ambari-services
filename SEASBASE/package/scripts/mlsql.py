@@ -29,50 +29,50 @@ class MlSql(Script):
     pass
 
 
-  def create_seabase_log_dir(self, env):
+  def create_seasbase_log_dir(self, env):
     import params
     env.set_params(params)
-    Directory([params.seabase_log_dir],
-              owner=params.seabase_user,
-              group=params.seabase_group,
+    Directory([params.seasbase_log_dir],
+              owner=params.seasbase_user,
+              group=params.seasbase_group,
               cd_access="a",
               create_parents=True,
               mode=0755
               )
 			  
 			  
-  def create_seabase_pid_dir(self, env):
+  def create_seasbase_pid_dir(self, env):
     import params
     env.set_params(params)
-    Directory([params.seabase_pid_dir],
-              owner=params.seabase_user,
-              group=params.seabase_group,
+    Directory([params.seasbase_pid_dir],
+              owner=params.seasbase_user,
+              group=params.seasbase_group,
               cd_access="a",
               create_parents=True,
               mode=0755
             )
 
-    Execute(("chown", "-R", format("{seabase_user}") + ":" + format("{seabase_group}"), params.seabase_pid_dir),
+    Execute(("chown", "-R", format("{seasbase_user}") + ":" + format("{seasbase_group}"), params.seasbase_pid_dir),
             sudo=True)			
 
   
   def configure(self, env):
-    self.create_seabase_log_dir(env)
-    self.create_seabase_pid_dir(env)
+    self.create_seasbase_log_dir(env)
+    self.create_seasbase_pid_dir(env)
 
 
   def stop(self, env):
     import params
-    self.create_seabase_log_dir(env)
-    self.create_seabase_pid_dir(env)
-    Execute(params.seabase_dir + '/bin/mlsql stop', user=params.seabase_user)
+    self.create_seasbase_log_dir(env)
+    self.create_seasbase_pid_dir(env)
+    Execute(params.seasbase_dir + '/bin/mlsql stop', user=params.seasbase_user)
 
 
   def start(self, env):
     import params
     self.configure(env)
     
-    Execute(params.seabase_dir + '/bin/mlsql start', user=params.seabase_user)
+    Execute(params.seasbase_dir + '/bin/mlsql start', user=params.seasbase_user)
 
     pidfile = glob.glob(os.path.join(params.mlsql_pid_file))[0]
     Logger.info(format("Pid file is: {pidfile}"))

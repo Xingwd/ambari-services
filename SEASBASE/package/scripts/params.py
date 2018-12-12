@@ -32,7 +32,7 @@ stack_root = Script.get_stack_root()
 
 service_packagedir = os.path.realpath(__file__).split('/scripts')[0]
 
-seabase_dirname = 'seabase'
+seasbase_dirname = 'seasbase'
 install_dir = os.path.join(stack_root, "current")
 
 
@@ -42,20 +42,20 @@ stack_name = default("/hostLevelParams/stack_name", None)
 
 
 # params for env
-seabase_user = 'hdfs'
-seabase_group = 'hdfs'
-seabase_log_dir = '/var/log/seabase'
-seabase_pid_dir = '/var/run/seabase'
+seasbase_user = 'hdfs'
+seasbase_group = 'hdfs'
+seasbase_log_dir = '/var/log/seasbase'
+seasbase_pid_dir = '/var/run/seasbase'
 
-mlsql_pid_file = os.path.join(seabase_pid_dir, 'mlsql.pid')
-mlsql_log_file = os.path.join(seabase_log_dir, 'mlsql.log')
-redis_pid_file = os.path.join(seabase_pid_dir, 'redis.pid')
-redis_log_file = os.path.join(seabase_log_dir, 'redis.log')
-seabase_pid_file = os.path.join(seabase_pid_dir, 'seabase.pid')
-seabase_log_file = os.path.join(seabase_log_dir, 'seabase.log')
+mlsql_pid_file = os.path.join(seasbase_pid_dir, 'mlsql.pid')
+mlsql_log_file = os.path.join(seasbase_log_dir, 'mlsql.log')
+redis_pid_file = os.path.join(seasbase_pid_dir, 'redis.pid')
+redis_log_file = os.path.join(seasbase_log_dir, 'redis.log')
+seasbase_pid_file = os.path.join(seasbase_pid_dir, 'seasbase.pid')
+seasbase_log_file = os.path.join(seasbase_log_dir, 'seasbase.log')
 
 
-seabase_dir = os.path.join(*[install_dir, seabase_dirname])
+seasbase_dir = os.path.join(*[install_dir, seasbase_dirname])
 
 
 
