@@ -16,7 +16,7 @@
 注意：
 
 - 在安装的时候，安装coordinator服务的主机不要勾选安装worker服务。
-- 安装过程进行到配置服务时，填写`discovery.uri`配置项的值，例如：`http://<COORDINATOR_FQDN>:8787`。
+- 安装过程进行到配置服务时，填写`discovery.uri`配置项的值，例如：`http://<COORDINATOR_SERVER_FQDN>:8787`。
 
 ### 伪分布式
 
@@ -39,7 +39,7 @@
 **连接hive示例**
 
 ```
-bin/presto --server example.net:8787 --catalog hive --schema default
+bin/presto --server <COORDINATOR_SERVER_FQDN>:8787 --catalog hive --schema default
 ```
 
 
