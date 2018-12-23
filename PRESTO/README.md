@@ -42,6 +42,15 @@
 bin/presto --server <COORDINATOR_SERVER_FQDN>:8787 --catalog hive --schema default
 ```
 
+**关于HDFS**
+
+如果你的Hadoop集群正在使用federated HDFS 或者 NameNode high availability，你需要指定hdfs配置文件，在hive.properties文件中添加：
+```
+hive.config.resources=/etc/hadoop/conf/core-site.xml,/etc/hadoop/conf/hdfs-site.xml
+```
+
+在这个ambari的presto service中，ambari web添加这个配置的位置是：connectors-properties/hive
+
 
 # 待改进
 - 优化coordinator和worker服务之间的安装冲突问题。
