@@ -16,7 +16,7 @@
 注意：
 
 - 在安装的时候，安装coordinator服务的主机不要勾选安装worker服务。
-- 安装过程进行到配置服务时，填写`discovery.uri`配置项的值，例如：`http://<COORDINATOR_FQDN>:8787`。
+- 安装过程进行到配置服务时，填写`discovery.uri`配置项的值，例如：`http://<COORDINATOR_SERVER_FQDN>:8787`。
 
 ### 伪分布式
 
@@ -39,8 +39,17 @@
 **连接hive示例**
 
 ```
-bin/presto --server example.net:8787 --catalog hive --schema default
+bin/presto --server <COORDINATOR_SERVER_FQDN>:8787 --catalog hive --schema default
 ```
+
+**关于HDFS**
+
+如果你的Hadoop集群正在使用federated HDFS 或者 NameNode high availability，你需要指定hdfs配置文件，在hive.properties文件中添加：
+```
+hive.config.resources=/etc/hadoop/conf/core-site.xml,/etc/hadoop/conf/hdfs-site.xml
+```
+
+在这个ambari的presto service中，ambari web添加这个配置的位置是：connectors-properties/hive
 
 
 # 待改进
