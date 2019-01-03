@@ -20,6 +20,7 @@ limitations under the License.
 
 import glob
 import os
+import uuid
 
 from resource_management import *
 
@@ -101,7 +102,7 @@ class Worker(Script):
 
 
     # write out node.properties
-    node_properties = key_val_template.format('node.id', params.hostname)
+    node_properties = key_val_template.format('node.id', uuid.uuid1().hex)
     for key, value in params.node_properties.iteritems():
       node_properties += key_val_template.format(key, value)
     File(format("{params.presto_etc_dir}/node.properties"), content=node_properties,
