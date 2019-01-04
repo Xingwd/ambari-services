@@ -18,13 +18,14 @@
 - 在安装的时候，安装coordinator服务的主机不要勾选安装worker服务。
 - 安装过程进行到配置服务时，填写`discovery.uri`配置项的值，例如：`http://<COORDINATOR_SERVER_FQDN>:8787`。
 
-### 伪分布式
+### 单机
 
 安装的时候不要勾选任何worker服务，也就是只安装coordinator服务。
 
-将`node-scheduler.include-coordinator`配置项的值调整为`true`。
+将`node-scheduler.include-coordinator`配置项的值调整为`true`，表示允许在coordinator上调度work。
 
 ### 分布式
+
 勾选任意数量的worker服务，注意**不要**在安装coordinator服务的主机上勾选worker服务。
 
 
