@@ -45,7 +45,7 @@ bin/presto --server <COORDINATOR_SERVER_FQDN>:8787 --catalog hive --schema defau
 
 **关于HDFS**
 
-如果你的Hadoop集群正在使用federated HDFS 或者 NameNode high availability，你需要指定hdfs配置文件，在hive.properties文件中添加：
+如果你的Hadoop集群正在使用federated HDFS 或者 NameNode high availability(HA)，你需要指定hdfs配置文件，在hive.properties文件中添加：
 ```
 hive.config.resources=/etc/hadoop/conf/core-site.xml,/etc/hadoop/conf/hdfs-site.xml
 ```
